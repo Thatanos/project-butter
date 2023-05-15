@@ -6,6 +6,8 @@ public class Dice : MonoBehaviour
 {
     Rigidbody rb;
     public DiceFace[] diceFace;
+    public WaypointNavigator[] player;
+    public int playerTurn;
     public int diceValue;
     bool landed;
     bool thrown;
@@ -73,6 +75,21 @@ public class Dice : MonoBehaviour
             {
                 diceValue = face.faceValue;
                 Debug.Log("Rolled " + diceValue);
+                switch (playerTurn)
+                {
+                    case 0:
+                        StartCoroutine(player[0].MovePlayer(diceValue));
+                        break;
+                    case 1:
+                        player[1].MovePlayer(diceValue);
+                        break;
+                    case 2:
+                        player[2].MovePlayer(diceValue);
+                        break;
+                    case 3:
+                        player[3].MovePlayer(diceValue);
+                        break;
+                }
             }
         }
     }
