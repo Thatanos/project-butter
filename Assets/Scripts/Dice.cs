@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Dice : MonoBehaviour
 {
     Rigidbody rb;
     public DiceFace[] diceFace;
     public WaypointNavigator[] player;
+    public Button roll, pass;
     public int playerTurn;
     public int diceValue;
     bool landed;
@@ -40,19 +43,19 @@ public class Dice : MonoBehaviour
     {
         if (!landed && !thrown)
         {
+            transform.position = initPosition;
+            roll.gameObject.SetActive(false);
             thrown = true;
             rb.useGravity = true;
             rb.AddTorque(Random.Range(0, 500), Random.Range(0, 500), Random.Range(0, 500));
-        }
-        else if (landed && thrown)
-        {
-            Reset();
+            
         }
     }
 
+    //Put the dice back at its initial position and reset the variable
     private void Reset()
     {
-        transform.position = initPosition;
+        //transform.position = initPosition;
         thrown = false;
         landed = false;
         rb.useGravity = false;
@@ -75,22 +78,27 @@ public class Dice : MonoBehaviour
             {
                 diceValue = face.faceValue;
                 Debug.Log("Rolled " + diceValue);
-                switch (playerTurn)
-                {
-                    case 0:
-                        StartCoroutine(player[0].MovePlayer(diceValue));
-                        break;
-                    case 1:
-                        player[1].MovePlayer(diceValue);
-                        break;
-                    case 2:
-                        player[2].MovePlayer(diceValue);
-                        break;
-                    case 3:
-                        player[3].MovePlayer(diceValue);
-                        break;
-                }
+                StartCoroutine(player[playerTurn].MovePlayer(diceValue));
+                EnablePass(); //Temporary enabling pass before tile function is implemented, put this in tile function when done
             }
         }
+    }
+
+    void EnablePass()
+    {
+        pass.gameObject.SetActive(true);
+    }
+
+    public void PassTurn()
+    {
+        pass.gameObject.SetActive(false);
+        roll.gameObject.SetActive(true);
+        Reset();
+        if (playerTurn < player.Length - 1)
+        {
+            playerTurn++;
+        }
+        else
+            playerTurn = 0;
     }
 }

@@ -9,7 +9,7 @@ public class WaypointNavigator : MonoBehaviour
     //[SerializeField] private float moveSpeed = 5f;
     //[SerializeField] private float distanceTreshold = 0.1f;
     [SerializeField] private float waitDuration = 1f;
-    private bool isWaiting = false;
+    //private bool isWaiting = false;
 
     private Transform currentWaypoint; //The waypoint the object is moving
 
