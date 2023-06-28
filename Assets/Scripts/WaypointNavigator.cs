@@ -10,6 +10,7 @@ public class WaypointNavigator : MonoBehaviour
     //[SerializeField] private float distanceTreshold = 0.1f;
     [SerializeField] private float waitDuration = 1f;
     //private bool isWaiting = false;
+    [SerializeField] public int currentWaypointIndex;
 
     private Transform currentWaypoint; //The waypoint the object is moving
 
@@ -20,6 +21,11 @@ public class WaypointNavigator : MonoBehaviour
 
         currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
         transform.LookAt(currentWaypoint);
+    }
+
+    private void Update()
+    {
+        currentWaypointIndex = waypoints.GetCurrentWaypoint(currentWaypoint);
     }
 
     public IEnumerator MovePlayer (int gridMove)

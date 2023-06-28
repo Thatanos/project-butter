@@ -9,11 +9,13 @@ public class Dice : MonoBehaviour
     Rigidbody rb;
     public DiceFace[] diceFace;
     public WaypointNavigator[] player;
+    public bool[] playerSleep;
     public Button roll, pass;
     public int playerTurn;
     public int diceValue;
     bool landed;
     bool thrown;
+    TileFunction tf;
 
     Vector3 initPosition;
     public bool diceContact = false;
@@ -23,6 +25,7 @@ public class Dice : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         initPosition = transform.position;
+        tf = GameObject.FindObjectOfType<TileFunction>();
     }
 
     private void Update()
@@ -79,12 +82,12 @@ public class Dice : MonoBehaviour
                 diceValue = face.faceValue;
                 Debug.Log("Rolled " + diceValue);
                 StartCoroutine(player[playerTurn].MovePlayer(diceValue));
-                EnablePass(); //Temporary enabling pass before tile function is implemented, put this in tile function when done
+                tf.FuncCheck(player[playerTurn].currentWaypointIndex); //Temporary enabling pass before tile function is implemented, put this in tile function when done
             }
         }
     }
 
-    void EnablePass()
+    public void EnablePass()
     {
         pass.gameObject.SetActive(true);
     }
@@ -97,8 +100,20 @@ public class Dice : MonoBehaviour
         if (playerTurn < player.Length - 1)
         {
             playerTurn++;
+            if (playerSleep[playerTurn])
+            {
+                playerSleep[playerTurn] = false;
+                playerTurn++;
+            }
         }
         else
+        {
             playerTurn = 0;
+            if (playerSleep[playerTurn])
+            {
+                playerSleep[playerTurn] = false;
+                playerTurn++;
+            }
+        }
     }
 }
