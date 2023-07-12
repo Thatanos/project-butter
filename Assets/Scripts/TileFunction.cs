@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class TileFunction : MonoBehaviour
 {
+    [Tooltip("Assign the function to the corresponding tiles. K = Kancil, T = Tidur, S = Songsang, N = Nasib, P = Perangkap.")]
     public string[] tileType;
+    [Tooltip("Assigns this to the dice.")]
     public Dice dice;
-    public void FuncCheck(int tileNumber)
+    public void FuncCheck(int tileNumber) //get the index from dice function and check corresponds function.
     {
         switch (tileType[tileNumber])
         {
@@ -27,21 +29,21 @@ public class TileFunction : MonoBehaviour
                 break;
         }
     }
-    public void KancilFunc()
+    public void KancilFunc() //doubles the player movement
     {
         Debug.Log("KancilTile, moving " + dice.diceValue);
         StartCoroutine(dice.player[dice.playerTurn].MovePlayer(dice.diceValue));
         dice.EnablePass();
     }
 
-    public void TidurFunc()
+    public void TidurFunc() //add sleep to the player
     {
         Debug.Log("Tidur~ Tidur~");
         dice.playerSleep[dice.playerTurn] = true;
         dice.EnablePass();
     }
 
-    public void SongsangFunc()
+    public void SongsangFunc() //various func, not yet implemented
     {
         int num = Random.Range(0, 6);
         switch (num)

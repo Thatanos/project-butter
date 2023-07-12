@@ -21,7 +21,7 @@ public class Waypoints : MonoBehaviour
         Gizmos.DrawLine(transform.GetChild(transform.childCount - 1).position, transform.GetChild(0).position);
     }
 
-    public Transform GetNextWaypoint (Transform currentWaypoint)
+    public Transform GetNextWaypoint (Transform currentWaypoint) //get the next sibling index
     {
         if (currentWaypoint == null)
         {
@@ -38,7 +38,7 @@ public class Waypoints : MonoBehaviour
         }
     }
 
-    public int GetCurrentWaypoint (Transform currentWaypoint)
+    public int GetCurrentWaypoint (Transform currentWaypoint) //returns current index
     {
         return (currentWaypoint.GetSiblingIndex() - 1);
     }
